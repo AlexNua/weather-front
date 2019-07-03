@@ -22,17 +22,16 @@ export class AppComponent {
   	if(req_city) {
   		this.city = req_city;
   	}
-  	if(this.lastCities.indexOf(this.city) === -1 ){
-	  	let countCities = this.lastCities.unshift(this.city);
-	  	if (countCities > 5 ) {
-	  		this.lastCities.pop();
-	  	}
-			this.cookie.set('last-cities', JSON.stringify(this.lastCities));
-  	}
 
     this.rest.getData(this.city).subscribe((data: any) => {
       this.forecasts = data.body.forecast;
-      console.log(this.forecasts);
+       if(this.lastCities.indexOf(this.city) === -1 ){
+		  	let countCities = this.lastCities.unshift(this.city);
+		  	if (countCities > 5 ) {
+		  		this.lastCities.pop();
+		  	}
+				this.cookie.set('last-cities', JSON.stringify(this.lastCities));
+	  	}
     });
   }
 }
